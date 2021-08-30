@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List categroies{% endblock %}
+
+{% block body %}
+    <table>
+    {% for category in categories %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td>
+                <a href="{{ url('category.show', {'id': category.id}) }}">View</a> |
+                <a href="{{ url('category.update', {'id': category.id}) }}">Edit</a> |
+                <a href="{{ url('category.delete', {'id': category.id}) }}">Delete</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
