@@ -1,0 +1,99 @@
+version: '3'
+services:
+  #Apache
+  # apache_server:
+  #   container_name: alpha_apache
+  #   build: ./apache_server
+  #   volumes:
+  #     - ../alpha:/var/www/project
+  #   ports:
+  #     - "8001:80"
+  #   tty: true
+  #Nginx
+  server_nginx:
+    container_name: server_nginx
+    build: ./nginx_server
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ../project:/var/www/project
+    ports:
+      - "8000:80"
+    tty: true
+  #MYSQL
+  server_mysql:
+    container_name: server_mysql
+    build: ./mysql
+    tty: true
+    ports:
+      - "43306:3306"
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root@secret123
+  server_pgsql:
+    container_name: server_pgsql
+    image: postgres:13-alpine
+    environment:
+        POSTGRES_USER: main
+        POSTGRES_PASSWORD: main
+        POSTGRES_DB: main
+    ports:
+      - "5432:5432"
+  #REDIS
+  server_redis:
+    container_name: server_redis
+    build: ./redis
+    ports:
+        - "6379:6379"
+  #RabbitMQ
+  # project_rabbit:
+  #   container_name: project_rabbit
+  #   image: rabbitmq
+  #   ports:
+  #       - "5672:5672"
+  #       - "15672:15672"
+  #RabbitMQ_Management (username/passwd: guest/guest)
+  # rabbit_admin:
+  #   image: rabbitmq:management
+  #   container_name: rabbit_admin
+  #   ports:
+  #     - "8080:15672"
+  #ElasticSearch
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+  #   container_name: es_server
+  #   environment:
+  #     #Config single node
+  #     - discovery.type=single-node
+  #     - node.name=es01
+  #     - cluster.name=es-docker-cluster
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #     #Config multi-nodes
+  #     # - discovery.seed_hosts=es02,es03
+  #     # - cluster.initial_master_nodes=es01,es02,es03
+
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   volumes:
+  #     - ./elasticsearch/data:/usr/share/elasticsearch/data
+  #   #   - ./elasticsearch/logs/:/usr/share/elasticsearch/logs
+  #   ports:
+  #     - 9200:9200
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:7.14.0
+  #   container_name: kibana_server
+  #   environment:
+  #     # SERVER_NAME: kibana.example.org
+  #     ELASTICSEARCH_HOSTS: '["http://es_server:9200"]'
+  #   volumes:
+  #     - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+  #   ports:
+  #     - 5601:5601
+networks:
+  default:
+    name: codedao-symfony-network
+
