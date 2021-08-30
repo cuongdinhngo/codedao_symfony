@@ -39,6 +39,7 @@ RUN apt-get update && apt-get install -y --allow-remove-essential \
         php8.0-gd \
         php8.0-redis \
         php8.0-xsl \
+        php8.0-amqp \
         git \
         curl \
         vim \

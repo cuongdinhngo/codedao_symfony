@@ -54,11 +54,11 @@ services:
   #       - "5672:5672"
   #       - "15672:15672"
   #RabbitMQ_Management (username/passwd: guest/guest)
-  # rabbit_admin:
-  #   image: rabbitmq:management
-  #   container_name: rabbit_admin
-  #   ports:
-  #     - "8080:15672"
+  server_rabbit:
+    image: rabbitmq:management
+    container_name: server_rabbit
+    ports:
+      - "8080:15672"
   #ElasticSearch
   # elasticsearch:
   #   image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0

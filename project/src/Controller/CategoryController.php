@@ -7,8 +7,8 @@ use App\EventDispatchers\Events\CategoryEvent;
 use App\EventDispatchers\Events\CategoryIsUpdatedEvent;
 use App\EventDispatchers\Listeners\CategoryListener;
 use App\EventDispatchers\Subscribers\CategorySubscriber;
-// use App\EventDispatchers\Subscribers\CategorySubscriber;
 use App\Form\CategoryType;
+use App\Message\SendEmailMessage;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
+use App\Message\SmsNotification;
 
 class CategoryController extends AbstractController
 {
@@ -25,11 +27,19 @@ class CategoryController extends AbstractController
 
     public $dispatcher;
 
-    public function __construct(EntityManagerInterface $em, CategoryRepository $categoryRepository, EventDispatcherInterface $dispatcher)
+    public $bus;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        CategoryRepository $categoryRepository,
+        EventDispatcherInterface $dispatcher,
+        MessageBusInterface $bus
+        )
     {
         $this->em = $em;
         $this->categoryRepository = $categoryRepository;
-        $this->dispatcher = $dispatcher;   
+        $this->dispatcher = $dispatcher;
+        $this->bus = $bus;
     }
 
     #[Route('/category/create', name: 'category.create')]
@@ -116,8 +126,13 @@ class CategoryController extends AbstractController
     {
         $id = $request->get('id');
         $category = $this->em->find(Category::class, $id);
+
         $this->em->remove($category);
         $this->em->flush();
+
+        $this->bus->dispatch(new SmsNotification("[RABBIT] One category was deleted!"));
+        $this->bus->dispatch(new SendEmailMessage("[REDIS] Category was deleted!"));
+
         return $this->redirectToRoute('category.index');
     }
 
