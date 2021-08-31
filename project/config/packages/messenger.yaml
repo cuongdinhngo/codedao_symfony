@@ -10,11 +10,7 @@ framework:
             
             async_rabbit:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN_RABBIT)%'
-                # options:
-                #     exchange:
-                #        name: high
-                #     queues:
-                #        messages_high: ~
+
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 

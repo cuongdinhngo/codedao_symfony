@@ -1,4 +1,7 @@
 {
+    "brick/math": {
+        "version": "0.9.3"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.3"
     },
@@ -82,6 +85,27 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "enqueue/amqp-tools": {
+        "version": "0.10.9"
+    },
+    "enqueue/dsn": {
+        "version": "0.10.8"
+    },
+    "enqueue/enqueue": {
+        "version": "0.10.9"
+    },
+    "enqueue/enqueue-bundle": {
+        "version": "0.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.9",
+            "ref": "c6ec89b63f963d10ad0d7a7bea170359c119c8bc"
+        }
+    },
+    "enqueue/null": {
+        "version": "0.10.9"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -105,6 +129,27 @@
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "queue-interop/amqp-interop": {
+        "version": "0.8.2"
+    },
+    "queue-interop/queue-interop": {
+        "version": "0.8.1"
+    },
+    "ramsey/collection": {
+        "version": "1.2.1"
+    },
+    "ramsey/uuid": {
+        "version": "4.2.1"
+    },
+    "sroze/messenger-enqueue-transport": {
+        "version": "0.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.1",
+            "ref": "9a7119f609b576a30dbf03e4fe44212388e96ea1"
+        }
     },
     "symfony/amqp-messenger": {
         "version": "v5.2.12"
